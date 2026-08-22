@@ -1,0 +1,23 @@
+{
+  "model": "pythia-160m",
+  "seconds": 11.0,
+  "marks": {
+    "head_head": 0.1,
+    "census": 0.2,
+    "interfaces_head": 5.6,
+    "mixed": 0.5,
+    "interfaces_neuron": 1.3,
+    "neuron_neuron": 0.2
+  },
+  "n_rot": 500,
+  "dims": {
+    "L": 12,
+    "H": 12,
+    "d": 768,
+    "dh": 64,
+    "d_mlp": 3072
+  },
+  "learned_pos": false,
+  "total_candidates": 633131424,
+  "n_wires": 725
+}

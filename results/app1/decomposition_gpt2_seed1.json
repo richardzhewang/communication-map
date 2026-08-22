@@ -1,0 +1,24 @@
+{
+  "seed": 1,
+  "clean_gap": 12.444037578999996,
+  "A_five_heads": {
+    "n": 5,
+    "gap_destroyed": 0.5968697240537144
+  },
+  "D_L4H11_alone": {
+    "n": 1,
+    "gap_destroyed": 0.016888516044856194
+  },
+  "E_B_minus_L4H11": {
+    "n": 24,
+    "gap_destroyed": 0.14972900382120768
+  },
+  "B_comm_minus_five": {
+    "n": 25,
+    "gap_destroyed": 0.7743498540711742
+  },
+  "C_whole_comm": {
+    "n": 30,
+    "gap_destroyed": 0.9382025852261896
+  }
+}

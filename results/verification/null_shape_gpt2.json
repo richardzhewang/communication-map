@@ -1,0 +1,19 @@
+{
+  "model": "gpt2",
+  "writer": "L4H7",
+  "reader": "L8H10",
+  "route": "head_head_K/Q (W_OV vs W_QK)",
+  "n_rot": 4000,
+  "seed": 0,
+  "sample_mean_z": 0.017339108506920536,
+  "sample_sd_z": 1.001876130825585,
+  "skew": 0.19549595286618884,
+  "excess_kurtosis": 0.2167320253664191,
+  "frac_below_-2": 0.0165,
+  "frac_above_+2": 0.0275,
+  "gaussian_tail": 0.02275,
+  "min_z": -3.0407471459772175,
+  "max_z": 4.781127797454484,
+  "z_trained": 15.70960223293119,
+  "z_floor_orthogonal": -36.16553762853114
+}

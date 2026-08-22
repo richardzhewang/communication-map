@@ -1,0 +1,23 @@
+{
+  "model": "gpt-neo-125m",
+  "seconds": 14.5,
+  "marks": {
+    "head_head": 0.1,
+    "census": 0.2,
+    "interfaces_head": 8.4,
+    "mixed": 0.5,
+    "interfaces_neuron": 2.0,
+    "neuron_neuron": 0.2
+  },
+  "n_rot": 500,
+  "dims": {
+    "L": 12,
+    "H": 12,
+    "d": 768,
+    "dh": 64,
+    "d_mlp": 3072
+  },
+  "learned_pos": true,
+  "total_candidates": 633168720,
+  "n_wires": 376
+}

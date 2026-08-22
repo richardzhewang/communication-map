@@ -1,0 +1,23 @@
+{
+  "model": "pythia-2.8b",
+  "seconds": 243.6,
+  "marks": {
+    "head_head": 4.2,
+    "census": 8.7,
+    "interfaces_head": 114.7,
+    "mixed": 65.7,
+    "interfaces_neuron": 10.0,
+    "neuron_neuron": 13.4
+  },
+  "n_rot": 500,
+  "dims": {
+    "L": 32,
+    "H": 32,
+    "d": 2560,
+    "dh": 80,
+    "d_mlp": 10240
+  },
+  "learned_pos": false,
+  "total_candidates": 52672155648,
+  "n_wires": 2389
+}

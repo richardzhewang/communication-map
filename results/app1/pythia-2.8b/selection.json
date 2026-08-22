@@ -1,0 +1,22 @@
+{
+  "head_head_K": {
+    "candidates": 507904,
+    "selected": 54896,
+    "rate": 0.10808341733870967,
+    "min_selected_z": 2.548932990989074
+  },
+  "head_head_Q": {
+    "candidates": 507904,
+    "selected": 32842,
+    "rate": 0.06466182585685484,
+    "min_selected_z": 2.723167179761615
+  },
+  "head_head_V": {
+    "candidates": 507904,
+    "selected": 27426,
+    "rate": 0.05399839339717742,
+    "min_selected_z": 2.782163093065252
+  },
+  "q": 0.05,
+  "total_selected": 115164
+}

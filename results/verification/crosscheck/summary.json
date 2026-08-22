@@ -1,0 +1,77 @@
+{
+  "version": "v1-scaffold",
+  "model": "gpt2",
+  "q_level": 0.05,
+  "k_global": 5,
+  "n_bins": 4001,
+  "two_sided_nn": true,
+  "ahn_horenstein_k": 3,
+  "n_r2_mediation_paths": 444,
+  "runtime_s": 109.3,
+  "families": {
+    "raw/head_neuron": {
+      "n_edges": 2875392,
+      "n_sig": 99238
+    },
+    "raw/neuron_head_K": {
+      "n_edges": 2433024,
+      "n_sig": 92929
+    },
+    "raw/neuron_head_Q": {
+      "n_edges": 2433024,
+      "n_sig": 78968
+    },
+    "raw/neuron_head_V": {
+      "n_edges": 2433024,
+      "n_sig": 52899
+    },
+    "raw/emb_neuron": {
+      "n_edges": 36864,
+      "n_sig": 22611
+    },
+    "raw/pos_neuron": {
+      "n_edges": 36864,
+      "n_sig": 394
+    },
+    "raw/neuron_unembed": {
+      "n_edges": 36864,
+      "n_sig": 2446
+    },
+    "raw/neuron_neuron": {
+      "n_edges": 622854144,
+      "n_sig": 678668
+    },
+    "partial/head_neuron": {
+      "n_edges": 2875392,
+      "n_sig": 112701
+    },
+    "partial/neuron_head_K": {
+      "n_edges": 2433024,
+      "n_sig": 80754
+    },
+    "partial/neuron_head_Q": {
+      "n_edges": 2433024,
+      "n_sig": 69727
+    },
+    "partial/neuron_head_V": {
+      "n_edges": 2433024,
+      "n_sig": 55922
+    },
+    "partial/emb_neuron": {
+      "n_edges": 36864,
+      "n_sig": 21434
+    },
+    "partial/pos_neuron": {
+      "n_edges": 36864,
+      "n_sig": 358
+    },
+    "partial/neuron_unembed": {
+      "n_edges": 36864,
+      "n_sig": 2956
+    },
+    "partial/neuron_neuron": {
+      "n_edges": 622854144,
+      "n_sig": 672140
+    }
+  }
+}

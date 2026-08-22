@@ -1,0 +1,23 @@
+{
+  "model": "gpt2-large",
+  "seconds": 74.4,
+  "marks": {
+    "head_head": 0.7,
+    "census": 3.7,
+    "interfaces_head": 32.3,
+    "mixed": 17.5,
+    "interfaces_neuron": 4.4,
+    "neuron_neuron": 3.4
+  },
+  "n_rot": 500,
+  "dims": {
+    "L": 36,
+    "H": 20,
+    "d": 1280,
+    "dh": 64,
+    "d_mlp": 5120
+  },
+  "learned_pos": true,
+  "total_candidates": 16778120400,
+  "n_wires": 6001
+}

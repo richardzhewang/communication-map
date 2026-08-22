@@ -1,0 +1,119 @@
+{
+  "gpt2": {
+    "model": "gpt2",
+    "clean_gap": 12.395616125315428,
+    "n_comm": 30,
+    "holds": 5,
+    "induction_heads": [
+      "L5H1",
+      "L5H5",
+      "L6H9",
+      "L7H2",
+      "L7H10"
+    ],
+    "five": 0.6082630179267804,
+    "remainder": 0.7287600392030364,
+    "full": 0.9471943233477814,
+    "ctrl_median": 0.029227160143814688,
+    "ctrl_max": 0.0999259692230756,
+    "pile_dnll": 0.5099009871482849
+  },
+  "gpt2-medium": {
+    "model": "gpt2-medium",
+    "clean_gap": 12.404197350144386,
+    "n_comm": 47,
+    "holds": 5,
+    "induction_heads": [
+      "L7H2",
+      "L9H9",
+      "L11H1",
+      "L12H1",
+      "L18H5"
+    ],
+    "five": 0.04710266444680698,
+    "remainder": 0.7538669102387131,
+    "full": 0.9339723090014918,
+    "ctrl_median": 0.020296679201122055,
+    "ctrl_max": 0.06385258013627554,
+    "pile_dnll": 0.48487377166748047
+  },
+  "gpt2-large": {
+    "model": "gpt2-large",
+    "clean_gap": 12.316689517349005,
+    "n_comm": 184,
+    "holds": 4,
+    "induction_heads": [
+      "L16H0",
+      "L16H9",
+      "L17H4",
+      "L19H4",
+      "L22H17"
+    ],
+    "five": 0.03584618067605816,
+    "remainder": 1.0202299498951672,
+    "full": 1.0846143644523263,
+    "ctrl_median": 0.1623938702138092,
+    "ctrl_max": 0.18334345896107912,
+    "pile_dnll": 4.771980166435242
+  },
+  "gpt-neo-125m": {
+    "model": "gpt-neo-125m",
+    "clean_gap": 12.922473929822445,
+    "n_comm": 32,
+    "holds": 5,
+    "induction_heads": [
+      "L6H1",
+      "L6H6",
+      "L8H0",
+      "L8H1",
+      "L8H8"
+    ],
+    "five": 0.6367263992723223,
+    "remainder": 1.0052618980475763,
+    "full": 1.0127866600380033,
+    "ctrl_median": 0.8678826308561515,
+    "ctrl_max": 0.9088483666314765,
+    "pile_dnll": 6.907512843608856
+  },
+  "pythia-160m": {
+    "model": "pythia-160m",
+    "clean_gap": 17.216524720191956,
+    "n_comm": 25,
+    "holds": 3,
+    "induction_heads": [
+      "L4H6",
+      "L4H10",
+      "L5H0",
+      "L5H6",
+      "L8H2"
+    ],
+    "five": 0.6002412834377804,
+    "remainder": 0.9205795361347581,
+    "full": 0.8624324073427887,
+    "ctrl_median": 0.2740641000581924,
+    "ctrl_max": 0.32313655978001293,
+    "pile_dnll": 0.516243577003479
+  },
+  "pythia-2.8b": {
+    "model": "pythia-2.8b",
+    "clean_gap": 12.371825344860554,
+    "n_comm": 443,
+    "holds": 4,
+    "induction_heads": [
+      "L3H11",
+      "L5H1",
+      "L5H5",
+      "L6H2",
+      "L13H24"
+    ],
+    "five": 0.4128770574474534,
+    "remainder": 0.9686511179402011,
+    "full": 0.9706046092215007,
+    "ctrl_median": 0.010083912421153706,
+    "ctrl_max": 0.012921950418818905,
+    "pile_dnll": 3.617485225200653
+  },
+  "pythia-6.9b": {
+    "error": "process killed during fp32 model assembly: the runnable 6.9B model (HF fp32 copy + TransformerLens processing copy) exceeds host memory; map building avoids this by streaming weights, but ablation requires the assembled model"
+  }
+}

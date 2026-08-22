@@ -1,0 +1,272 @@
+{
+  "q": 0.05,
+  "classes": {
+    "head_head_K": {
+      "pipeline_sig": 492,
+      "robust_refit": 492,
+      "moment_refit": 188,
+      "overlap": 188,
+      "lost_by_moment": 304,
+      "robust_matches_pipeline": true,
+      "max_scale_inflation": 3.1438746204921455,
+      "per_stratum": [
+        {
+          "span": 1,
+          "n": 1584,
+          "robust_scale": 0.010670196111490142,
+          "moment_scale": 0.014079401790896229,
+          "inflation": 1.3195073121228675
+        },
+        {
+          "span": 2,
+          "n": 1440,
+          "robust_scale": 0.010763920791603338,
+          "moment_scale": 0.018366901905125976,
+          "inflation": 1.7063393776971614
+        },
+        {
+          "span": 3,
+          "n": 1296,
+          "robust_scale": 0.008885850425563424,
+          "moment_scale": 0.012596064148771463,
+          "inflation": 1.4175417709636706
+        },
+        {
+          "span": 4,
+          "n": 1152,
+          "robust_scale": 0.008446129801629301,
+          "moment_scale": 0.010315863952500809,
+          "inflation": 1.2213717045303787
+        },
+        {
+          "span": 5,
+          "n": 1008,
+          "robust_scale": 0.008206471144660762,
+          "moment_scale": 0.010839770473937933,
+          "inflation": 1.3208808369466367
+        },
+        {
+          "span": 6,
+          "n": 864,
+          "robust_scale": 0.007677516563050471,
+          "moment_scale": 0.012690529203027908,
+          "inflation": 1.6529471605575592
+        },
+        {
+          "span": 7,
+          "n": 720,
+          "robust_scale": 0.007237343829921123,
+          "moment_scale": 0.0165707302831948,
+          "inflation": 2.2896149019046117
+        },
+        {
+          "span": 8,
+          "n": 576,
+          "robust_scale": 0.008090802156551497,
+          "moment_scale": 0.020903821973917602,
+          "inflation": 2.5836525933328884
+        },
+        {
+          "span": 9,
+          "n": 432,
+          "robust_scale": 0.008365494662040125,
+          "moment_scale": 0.026300066355850468,
+          "inflation": 3.1438746204921455
+        },
+        {
+          "span": 10,
+          "n": 288,
+          "robust_scale": 0.012694398519758468,
+          "moment_scale": 0.021334496074608002,
+          "inflation": 1.6806228386009363
+        },
+        {
+          "span": 11,
+          "n": 144,
+          "robust_scale": 0.01141588469253808,
+          "moment_scale": 0.01391789561177776,
+          "inflation": 1.21916925289856
+        }
+      ]
+    },
+    "head_head_Q": {
+      "pipeline_sig": 436,
+      "robust_refit": 436,
+      "moment_refit": 184,
+      "overlap": 184,
+      "lost_by_moment": 252,
+      "robust_matches_pipeline": true,
+      "max_scale_inflation": 5.048656609888494,
+      "per_stratum": [
+        {
+          "span": 1,
+          "n": 1584,
+          "robust_scale": 0.013937062816477538,
+          "moment_scale": 0.01951423037775814,
+          "inflation": 1.4001680723349268
+        },
+        {
+          "span": 2,
+          "n": 1440,
+          "robust_scale": 0.013297376251698405,
+          "moment_scale": 0.01803257927394152,
+          "inflation": 1.3561005519143907
+        },
+        {
+          "span": 3,
+          "n": 1296,
+          "robust_scale": 0.0106772333255994,
+          "moment_scale": 0.011733376806683774,
+          "inflation": 1.0989154632925553
+        },
+        {
+          "span": 4,
+          "n": 1152,
+          "robust_scale": 0.009194081782574874,
+          "moment_scale": 0.00982355265882408,
+          "inflation": 1.068464789756625
+        },
+        {
+          "span": 5,
+          "n": 1008,
+          "robust_scale": 0.007882549990438218,
+          "moment_scale": 0.010439326313337194,
+          "inflation": 1.3243590368599534
+        },
+        {
+          "span": 6,
+          "n": 864,
+          "robust_scale": 0.006584466499302661,
+          "moment_scale": 0.012392625804404414,
+          "inflation": 1.8821002135430223
+        },
+        {
+          "span": 7,
+          "n": 720,
+          "robust_scale": 0.005220560974090387,
+          "moment_scale": 0.016190204071287285,
+          "inflation": 3.1012383825491496
+        },
+        {
+          "span": 8,
+          "n": 576,
+          "robust_scale": 0.005296343115812855,
+          "moment_scale": 0.020736988322972983,
+          "inflation": 3.9153408058213346
+        },
+        {
+          "span": 9,
+          "n": 432,
+          "robust_scale": 0.005190353821756447,
+          "moment_scale": 0.02620431412987069,
+          "inflation": 5.048656609888494
+        },
+        {
+          "span": 10,
+          "n": 288,
+          "robust_scale": 0.006615629163423014,
+          "moment_scale": 0.02061616425405491,
+          "inflation": 3.1162817238969653
+        },
+        {
+          "span": 11,
+          "n": 144,
+          "robust_scale": 0.005189218539541096,
+          "moment_scale": 0.009973947230994415,
+          "inflation": 1.9220518764038126
+        }
+      ]
+    },
+    "head_head_V": {
+      "pipeline_sig": 123,
+      "robust_refit": 123,
+      "moment_refit": 42,
+      "overlap": 42,
+      "lost_by_moment": 81,
+      "robust_matches_pipeline": true,
+      "max_scale_inflation": 1.994674497867579,
+      "per_stratum": [
+        {
+          "span": 1,
+          "n": 1584,
+          "robust_scale": 0.0120174296023433,
+          "moment_scale": 0.012939911857115658,
+          "inflation": 1.0767620269306577
+        },
+        {
+          "span": 2,
+          "n": 1440,
+          "robust_scale": 0.01076758955747927,
+          "moment_scale": 0.011634638496066009,
+          "inflation": 1.0805239588636137
+        },
+        {
+          "span": 3,
+          "n": 1296,
+          "robust_scale": 0.00932549033611388,
+          "moment_scale": 0.009528603858656781,
+          "inflation": 1.0217804657151726
+        },
+        {
+          "span": 4,
+          "n": 1152,
+          "robust_scale": 0.007597910083174206,
+          "moment_scale": 0.008278985762689178,
+          "inflation": 1.0896398709723132
+        },
+        {
+          "span": 5,
+          "n": 1008,
+          "robust_scale": 0.006346446645390085,
+          "moment_scale": 0.007119660985143207,
+          "inflation": 1.1218342141605757
+        },
+        {
+          "span": 6,
+          "n": 864,
+          "robust_scale": 0.005320845946569688,
+          "moment_scale": 0.006174824190500321,
+          "inflation": 1.1604967053182937
+        },
+        {
+          "span": 7,
+          "n": 720,
+          "robust_scale": 0.004770769349161496,
+          "moment_scale": 0.005870312444735085,
+          "inflation": 1.2304750062517364
+        },
+        {
+          "span": 8,
+          "n": 576,
+          "robust_scale": 0.005450289080857397,
+          "moment_scale": 0.0061741678947036015,
+          "inflation": 1.1328147558977422
+        },
+        {
+          "span": 9,
+          "n": 432,
+          "robust_scale": 0.006316376942517154,
+          "moment_scale": 0.007209574452025584,
+          "inflation": 1.1414097856472258
+        },
+        {
+          "span": 10,
+          "n": 288,
+          "robust_scale": 0.009809562300811016,
+          "moment_scale": 0.019566883756670945,
+          "inflation": 1.994674497867579
+        },
+        {
+          "span": 11,
+          "n": 144,
+          "robust_scale": 0.008227889175311632,
+          "moment_scale": 0.01439179290479439,
+          "inflation": 1.7491476365503305
+        }
+      ]
+    }
+  },
+  "total_robust": 1051,
+  "total_lost_by_moment": 637,
+  "max_scale_inflation": 5.048656609888494
+}
