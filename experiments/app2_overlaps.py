@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-REPO = Path("/home/richard/CS_Projects/communication-map")
+REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "experiments"))
 spec = importlib.util.spec_from_file_location(
     "ru", REPO / "experiments" / "lib" / "cs2_common.py")
