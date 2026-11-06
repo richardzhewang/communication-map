@@ -133,6 +133,12 @@ if energy_pair != [0, 1] and spec_pair != [0, 1]:
     conds["bands_0_1_topeig"] = band_sub([0, 1])
 conds[f"outlier_coords_{outlier2[0]}_{outlier2[1]}"] = coord_sub(outlier2)
 conds[f"outlier_coord_{outlier2[0]}"] = coord_sub(outlier2[:1])
+# Positional-only baseline: the top-2 principal directions of the
+# positional matrix itself (W_pos for learned embeddings, the estimated
+# positional matrix for rotary models), the induction-specific competitor
+# to the map's PosRatio pair.
+pos_pca = np.linalg.eigh(Wpos.T @ Wpos)[1][:, ::-1][:, :2]
+conds["pos_pca_top2"] = orth(pos_pca)
 rng = np.random.default_rng(0)
 for s in range(5):
     conds[f"rand{s}"] = orth(rng.standard_normal((cfg.d_model, 2)))
@@ -166,6 +172,8 @@ print(f"outlier coords {outlier2} | rule-pair squared mass on them "
       f"{rule_mass:.3f}")
 out = {"band_shares": {str(b): shares[b] for b in shares},
        "outlier_coords": outlier2,
+       "pos_pca_cos_rule": [round(float(x), 4) for x in np.linalg.svd(
+           vecs[:, spec_pair].T @ pos_pca, compute_uv=False)],
        "rule_pair_mass_on_outlier_coords": rule_mass}
 clean = readout(None)
 out["clean"] = clean

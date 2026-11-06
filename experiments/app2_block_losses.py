@@ -25,7 +25,8 @@ def pick(d, pred):
 def rows_for(name, d, rw_key, pca_key, out_key, rand_pred):
     clean = d["clean"]
     conds = [("RW-PCA (ours)", pick(d, rw_key)), ("Activation PCA", pick(d, pca_key)),
-             ("Outlier dims", pick(d, out_key))]
+             ("Outlier dims", pick(d, out_key)),
+             ("Positional PCA", d["pos_pca_top2"])]
     rnd = [d[k] for k in d if rand_pred(k)]
     res = {"clean": dict(first=clean["loss_first"], second=clean["loss_second"],
                          gain=clean["gain"])}

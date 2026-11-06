@@ -202,13 +202,19 @@ conds.update({
     f"act_pca_L{MIDL}_top2": orth(apca),
     f"outlier_coords_{outlier2[0]}_{outlier2[1]}": coord_sub(outlier2),
 })
+# Positional-only baseline: top-2 principal directions of the estimated
+# positional matrix, the induction-specific competitor to the rule pair.
+pos_pca = np.linalg.eigh(prof.T @ prof)[1][:, ::-1][:, :2]
+conds["pos_pca_top2"] = orth(pos_pca)
 rng = np.random.default_rng(0)
 for s in range(5):
     conds[f"rand{s}_2dim"] = orth(rng.standard_normal((d, 2)))
 
 out = {"model": MODEL, "batch": B, "runner": "hf-native",
        "band_shares": {str(b): shares[b] for b in shares},
-       "rule_ranking": rule_rank, "outlier_coords": outlier2}
+       "rule_ranking": rule_rank, "outlier_coords": outlier2,
+       "pos_pca_cos_rule": [round(float(x), 4) for x in np.linalg.svd(
+           vecs[:, sorted(rule_rank[:2])].T @ pos_pca, compute_uv=False)]}
 clean = readout(None)
 out["clean"] = clean
 print(f"clean gain {clean['gain']:.2f} | clean pile {clean['pile']:.3f}",
