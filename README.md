@@ -70,20 +70,23 @@ experiments/
                        neuron wires; no selection
   map_crosscheck.py    independent CPU implementation of the head C
                        tables, retained as a cross-check
-  map_fig_wires.py     Figure 3 (neuron cosine distribution vs the
-                       exact chance law)
+  map_fig_wires.py     the neuron cosine distribution against the
+                       exact chance law (appendix figure)
+  map_fig_overview.py  the full map at layer resolution: every class
+                       scored against the rotation null, pooled into
+                       writer-group x reader-group blocks (Figure 3)
 
   app1_select.py       the edge-selection standard: empirical
                        null distributions (median/MADN per stratum) +
                        per-class BH at q = 0.05, head classes only
   app1_communities.py  Louvain partition of the selected head graph;
                        archives the seed-0 assignment
-  app1_fig_map.py      Figure 2 (head map + communities)
+  app1_fig_map.py      the head-to-head graph and its communities
   app1_ablation.py     the induction-community decomposition (GPT-2)
   app1_seed_check.py   corpus-seed stability of the decomposition
   app1_multimodel.py   the four-model community-ablation replication
 
-  app2_fig_bands.py    Figure 4 (pooled coupling matrix spectrum)
+  app2_fig_bands.py    the pooled coupling matrix spectrum
   app2_pilot.py        band selection rule + comparison-subspace deletions, per
                        model (arg: model name, seed)
   app2_scale.py        the deletions at scale, HF-native fp32 forwards
@@ -133,6 +136,7 @@ results/
 | Head-head census against the theoretical null (Section 3) | map_build (all models) | `results/map/{model}/theory_census.json` |
 | Neuron wires, exceedance counts, neuron-cosine figure | map_build + map_fig_wires | `results/map/{model}/wires.csv.gz`, `theory_census.json` (`nn_exceedance`), `results/figures/` |
 | Candidate-edge counts per connection class | map_build | `results/map/{model}/families.csv` |
+| The map at layer resolution (all 18 classes, Figure 3) | map_fig_overview | `results/figures/fig_map_layer_overview.png`, `results/figures/map_layer_overview.json` |
 | Selected edges and thresholds (Section 4) | app1_select | `results/app1/{model}/edges_heads.csv.gz` |
 | Head-graph figure, communities, layer-separation table | app1_communities + app1_fig_map | `results/figures/`, `results/app1/head_communities_seed0.json` |
 | GPT-2 community decomposition and corpus-seed check | app1_ablation + app1_seed_check | `results/app1/decomposition_gpt2*.json` |

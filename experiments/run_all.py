@@ -30,7 +30,8 @@ PY = sys.executable
 STAGES = {
     "map": [[f"{E}/map_build.py", "gpt2"],
             [f"{E}/map_crosscheck.py"],
-            [f"{E}/map_fig_wires.py"]],
+            [f"{E}/map_fig_wires.py"],
+            [f"{E}/map_fig_overview.py", "gpt2"]],
     "app1": [[f"{E}/app1_select.py", "gpt2"],
              [f"{E}/app1_communities.py"],
              [f"{E}/app1_fig_map.py"],
