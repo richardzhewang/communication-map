@@ -37,20 +37,13 @@ blk = vocab[torch.randint(len(vocab), (cu.N_SEQ, cu.BLOCK), generator=g)]
 ind = torch.cat([torch.full((cu.N_SEQ, 1), bos),
                  blk.repeat(1, 2)[:, :2 * cu.BLOCK - 1]], 1).to("cuda")
 
-df = cu.head_map(model)
-surv = cu.survivors(df)
-G = nx.Graph()
-for r in surv.itertuples():
-    if G.has_edge(r.writer, r.reader):
-        G[r.writer][r.reader]["w"] += 1
-    else:
-        G.add_edge(r.writer, r.reader, w=1)
-gcc = G.subgraph(max(nx.connected_components(G), key=len)).copy()
-comms = sorted(nx.community.louvain_communities(gcc, weight="w", seed=0),
-               key=len, reverse=True)
+# Same archived seed-0 partition as app1_ablation.py and Figure 2.
+assign = json.load(open("results/app1/head_communities_seed0.json"))
 ind_heads, _ = cu.induction_heads(model, ind)
-hits = [len(set(ind_heads) & c) for c in comms]
-C_ind = sorted(comms[int(np.argmax(hits))])
+cids = [assign[h] for h in ind_heads if h in assign]
+ci = max(set(cids), key=cids.count)
+C_ind = sorted(h for h, c in assign.items() if c == ci)
+hits = [sum(assign.get(h) == ci for h in ind_heads)]
 A = sorted(set(ind_heads))
 B = sorted(set(C_ind) - set(A))
 print(f"seed-{SEED} induction heads {A} | community n={len(C_ind)} "

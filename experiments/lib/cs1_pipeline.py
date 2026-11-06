@@ -227,6 +227,37 @@ def z_means(model, toks):
 
 # ------------------------------------------------ per-model driver
 
+def matched_controls(target, n_heads, n_sets, rng):
+    """Random control head sets matched to `target` exactly in size and in
+    per-layer head counts. Heads are drawn from each layer's non-target pool
+    first. When a layer holds more target heads than it has other heads, the
+    remainder is drawn from the layer's target heads, so a control overlaps
+    the target only where exact matching is otherwise impossible. Returns
+    (sets, overlaps) with overlaps[i] = number of target heads in set i. The
+    draw order reproduces the earlier sampler whenever no layer is short."""
+    lay = lambda n: int(n[1:n.index("H")])
+    per_layer = {}
+    for nm in target:
+        per_layer[lay(nm)] = per_layer.get(lay(nm), 0) + 1
+    tset = set(target)
+    sets, overlaps = [], []
+    for _ in range(n_sets):
+        s, ov = [], 0
+        for l, cnt in per_layer.items():
+            pool = [f"L{l}H{h}" for h in range(n_heads)
+                    if f"L{l}H{h}" not in tset]
+            take = min(cnt, len(pool))
+            s += list(rng.choice(pool, take, replace=False))
+            if take < cnt:
+                own = [f"L{l}H{h}" for h in range(n_heads)
+                       if f"L{l}H{h}" in tset]
+                s += list(rng.choice(own, cnt - take, replace=False))
+                ov += cnt - take
+        sets.append(s)
+        overlaps.append(ov)
+    return sets, overlaps
+
+
 def run_model(name):
     model = load(name)
     cfg = model.cfg
@@ -264,19 +295,9 @@ def run_model(name):
     r_dis = (knockout_metrics(model, C_ctrl, means, ind, pile)
              if C_ctrl else None)
 
-    lay = lambda n: int(n[1:n.index("H")])
     rng = np.random.default_rng(1)
-    per_layer = {}
-    for nm in C_ind:
-        per_layer[lay(nm)] = per_layer.get(lay(nm), 0) + 1
-    ctrls = []
-    for _ in range(5):
-        s = []
-        for l, cnt in per_layer.items():
-            pool = [f"L{l}H{h}" for h in range(cfg.n_heads)
-                    if f"L{l}H{h}" not in C_ind]
-            s += list(rng.choice(pool, min(cnt, len(pool)), replace=False))
-        ctrls.append(knockout_metrics(model, s, means, ind, pile))
+    csets, _overlaps = matched_controls(C_ind, cfg.n_heads, 5, rng)
+    ctrls = [knockout_metrics(model, s, means, ind, pile) for s in csets]
 
     gr = lambda r: 1 - r["gap"] / clean["gap"]
     nr = lambda r: r["pile"] - clean["pile"]

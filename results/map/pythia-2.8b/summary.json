@@ -1,13 +1,13 @@
 {
   "model": "pythia-2.8b",
-  "seconds": 243.6,
+  "seconds": 239.7,
   "marks": {
-    "head_head": 4.2,
-    "census": 8.7,
-    "interfaces_head": 114.7,
-    "mixed": 65.7,
+    "head_head": 4.3,
+    "census": 9.6,
+    "interfaces_head": 115.0,
+    "mixed": 65.8,
     "interfaces_neuron": 10.0,
-    "neuron_neuron": 13.4
+    "neuron_neuron": 13.5
   },
   "n_rot": 500,
   "dims": {
@@ -18,6 +18,7 @@
     "d_mlp": 10240
   },
   "learned_pos": false,
-  "total_candidates": 52672155648,
+  "parallel_blocks": true,
+  "total_candidates": 52661669888,
   "n_wires": 2389
 }

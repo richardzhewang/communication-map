@@ -135,18 +135,21 @@ def run_model(name):
     full = cs1.knockout_metrics(model, [lab(h) for h in comm],
                                 means, ind, pile)
 
-    per_layer = {}
-    for h in comm:
-        per_layer[h // H] = per_layer.get(h // H, 0) + 1
+    # Layer-matched controls: exact size and per-layer head counts. Where a
+    # layer holds more community heads than other heads, the shortfall is
+    # filled from the community's own heads in that layer (overlap recorded).
     rng = np.random.default_rng(0)
-    ctrl = []
-    for _ in range(5):
-        cset = []
-        for l, k in per_layer.items():
-            pool = [x for x in range(l * H, (l + 1) * H) if x not in comm]
-            cset += list(rng.choice(pool, min(k, len(pool)), replace=False))
-        ctrl.append(frac(cs1.knockout_metrics(
-            model, [lab(h) for h in cset], means, ind, pile)))
+    csets, overlaps = cs1.matched_controls([lab(h) for h in comm], H, 5, rng)
+    ctrl = [frac(cs1.knockout_metrics(model, s, means, ind, pile))
+            for s in csets]
+    # Size-matched controls: the same number of heads drawn from all
+    # non-community heads with no layer constraint, hence never overlapping.
+    rng2 = np.random.default_rng(100)
+    comm_set = set(comm)
+    others = [lab(h) for h in range(L * H) if h not in comm_set]
+    ctrl_size = [frac(cs1.knockout_metrics(
+        model, list(rng2.choice(others, len(comm), replace=False)),
+        means, ind, pile)) for _ in range(5)]
 
     row = dict(model=name, clean_gap=float(clean["gap"]),
                n_comm=int(len(comm)), holds=int(holds),
@@ -155,10 +158,15 @@ def run_model(name):
                full=float(frac(full)),
                ctrl_median=float(np.median(ctrl)),
                ctrl_max=float(np.max(ctrl)),
+               ctrl_overlap=[int(o) for o in overlaps],
+               ctrl_size_median=float(np.median(ctrl_size)),
+               ctrl_size_max=float(np.max(ctrl_size)),
                pile_dnll=float(full["pile"] - clean["pile"]))
     print(f"  [{name}] clean {row['clean_gap']:.2f} | five "
           f"{row['five']:.1%} | remainder {row['remainder']:.1%} | full "
-          f"{row['full']:.1%} | ctrl med {row['ctrl_median']:.1%} | "
+          f"{row['full']:.1%} | ctrl med {row['ctrl_median']:.1%} "
+          f"(overlap {row['ctrl_overlap']}) | size-matched ctrl med "
+          f"{row['ctrl_size_median']:.1%} | "
           f"pile +{row['pile_dnll']:.2f}", flush=True)
     del model
     torch.cuda.empty_cache()

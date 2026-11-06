@@ -31,24 +31,15 @@ import networkx as nx
 model = cu.load("gpt2")
 cfg = model.cfg
 ind, pile = cu.corpora(model, "cuda")
-df = cu.head_map(model)
-surv = cu.survivors(df)
-print(f"{len(surv)} survivors", flush=True)
-
-G = nx.Graph()
-for r in surv.itertuples():
-    if G.has_edge(r.writer, r.reader):
-        G[r.writer][r.reader]["w"] += 1
-    else:
-        G.add_edge(r.writer, r.reader, w=1)
-gcc = G.subgraph(max(nx.connected_components(G), key=len)).copy()
-comms = sorted(nx.community.louvain_communities(gcc, weight="w", seed=0),
-               key=len, reverse=True)
-
+# The community is the archived seed-0 Louvain partition of the released
+# head graph (results/app1/head_communities_seed0.json, the one drawn in
+# Figure 2), so the ablated head set and the plotted one are the same set.
+assign = json.load(open("results/app1/head_communities_seed0.json"))
 ind_heads, _ = cu.induction_heads(model, ind)
-hits = [len(set(ind_heads) & c) for c in comms]
-ci = int(np.argmax(hits))
-C_ind = sorted(comms[ci])
+cids = [assign[h] for h in ind_heads if h in assign]
+ci = max(set(cids), key=cids.count)
+C_ind = sorted(h for h, c in assign.items() if c == ci)
+hits = {ci: sum(assign.get(h) == ci for h in ind_heads)}
 A = sorted(set(ind_heads))
 B = sorted(set(C_ind) - set(ind_heads))
 print(f"induction heads {A} | community n={len(C_ind)} holds {hits[ci]}/5 "
@@ -62,17 +53,8 @@ lay = lambda n: int(n[1:n.index("H")])
 rng = np.random.default_rng(1)
 
 def layer_matched_controls(target, n_sets=5):
-    per_layer = {}
-    for nm in target:
-        per_layer[lay(nm)] = per_layer.get(lay(nm), 0) + 1
-    sets = []
-    for _ in range(n_sets):
-        s = []
-        for l, cnt in per_layer.items():
-            pool = [f"L{l}H{h}" for h in range(cfg.n_heads)
-                    if f"L{l}H{h}" not in target]
-            s += list(rng.choice(pool, min(cnt, len(pool)), replace=False))
-        sets.append(s)
+    sets, overlaps = cu.matched_controls(target, cfg.n_heads, n_sets, rng)
+    assert max(overlaps) == 0, overlaps  # GPT-2 small: no layer is short
     return sets
 
 gr = lambda r: 1 - r["gap"] / clean["gap"]

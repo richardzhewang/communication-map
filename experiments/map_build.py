@@ -430,7 +430,14 @@ def mixed(W, hh, out_rows):
             del proj
         torch.cuda.empty_cache()
         if to_neuron:
-            emask = h16[:, None] <= n16[None, :]
+            # Sequential blocks: the MLP reads the stream after its own
+            # layer's attention wrote, so l_w <= l_r. Parallel blocks
+            # (Pythia): attention and the MLP read the same layer input,
+            # so the mask is strict, l_w < l_r.
+            if W.get("parallel_blocks", False):
+                emask = h16[:, None] < n16[None, :]
+            else:
+                emask = h16[:, None] <= n16[None, :]
         else:
             emask = n16[None, :] < h16[:, None]
         s = stat[emask]                                       # fp32
@@ -568,10 +575,15 @@ def main():
         for p in model.parameters():
             p.data = torch.empty(0)
         del model
+    # Block structure. Pythia (GPT-NeoX) runs attention and the MLP in
+    # parallel off the same layer input, so a head cannot feed its own
+    # layer's neurons; GPT-2 and GPT-Neo are sequential.
+    W["parallel_blocks"] = args.model.startswith("pythia")
     gc.collect()
     torch.cuda.empty_cache()
     print(f"  extracted in {time.time()-t0:.0f}s | d={W['d']} L={W['L']} "
-          f"H={W['H']} d_mlp={W['d_mlp']} learned_pos={W['learned_pos']}",
+          f"H={W['H']} d_mlp={W['d_mlp']} learned_pos={W['learned_pos']} "
+          f"parallel_blocks={W['parallel_blocks']}",
           flush=True)
 
     rows: list[dict] = []
@@ -641,6 +653,7 @@ def main():
                    n_rot=args.n_rot,
                    dims={k: W[k] for k in ("L", "H", "d", "dh", "d_mlp")},
                    learned_pos=W["learned_pos"],
+                   parallel_blocks=bool(W.get("parallel_blocks", False)),
                    total_candidates=int(famdf["n_edges"].sum()),
                    n_wires=int(len(nn["wires"])))
     (out / "summary.json").write_text(json.dumps(summary, indent=2))

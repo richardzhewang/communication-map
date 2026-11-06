@@ -1,5 +1,5 @@
 cls,n_edges,max_stat,null_kind
-head_neuron,2875392,0.47086745500564575,scored
+head_neuron,2433024,0.47086745500564575,scored
 neuron_head_K,2433024,0.3027513325214386,scored
 neuron_head_Q,2433024,0.371351957321167,scored
 neuron_head_V,2433024,0.6966167688369751,scored

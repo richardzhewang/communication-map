@@ -11,14 +11,14 @@
   },
   "E_B_minus_L4H11": {
     "n": 24,
-    "gap_destroyed": 0.14972900382120768
+    "gap_destroyed": 0.12558376872472343
   },
   "B_comm_minus_five": {
     "n": 25,
-    "gap_destroyed": 0.7743498540711742
+    "gap_destroyed": 0.7298072133785254
   },
   "C_whole_comm": {
     "n": 30,
-    "gap_destroyed": 0.9382025852261896
+    "gap_destroyed": 0.9470026642768266
   }
 }
