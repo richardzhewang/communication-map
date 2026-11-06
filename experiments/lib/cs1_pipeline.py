@@ -208,7 +208,7 @@ def knockout_metrics(model, head_set, means, ind, pile):
             lp = F.log_softmax(model(pile[i:i+8]).float(), -1)
             tot += float((-lp[:, :-1].gather(-1, pile[i:i+8, 1:][..., None])
                           .squeeze(-1)).mean()) / (N_SEQ // 8)
-    return dict(gap=n1 - n2, pile=tot)
+    return dict(gap=n1 - n2, pile=tot, loss_first=n1, loss_second=n2)
 
 
 def z_means(model, toks):

@@ -52,7 +52,7 @@ OUT_DIR: Path = None    # set in main()
 
 # ------------------------------------------------------------------ loading
 
-def load_tl(name: str):
+def load_tl(name: str, revision=None, random_init=False):
     from transformer_lens import HookedTransformer
     kw = dict(fold_ln=True, center_writing_weights=True, center_unembed=True,
               device=DEV, dtype=torch.float32)
@@ -60,7 +60,26 @@ def load_tl(name: str):
         from transformers import AutoModelForCausalLM
         # fp32 preload: with fp16 the TL shim folds in fp16 (validated
         # 2e-4 rel drift). Big models use stream_extract instead.
-        hf = AutoModelForCausalLM.from_pretrained(f"EleutherAI/{name}",
+        src = f"EleutherAI/{name}"
+        if revision is not None:
+            # On some Pythia repos (pythia-2.8b) the single-file
+            # model.safetensors and pytorch_model.bin on a step branch are
+            # copies of the FINAL weights; the genuine checkpoint is the
+            # sharded model-0000k-of-0000n.safetensors set with its index.
+            # Load the shards when a branch has them, else the single file.
+            from huggingface_hub import HfApi, snapshot_download
+            files = [s.rfilename for s in HfApi().model_info(
+                src, revision=revision).siblings]
+            shards = [f for f in files if f.startswith("model-0000")]
+            pats = ["config.json", "generation_config.json"] + (
+                ["model-0000*.safetensors", "model.safetensors.index.json"]
+                if shards else ["model.safetensors"])
+            src = snapshot_download(src, revision=revision,
+                                    allow_patterns=pats)
+            print(f"  checkpoint {revision}: "
+                  f"{'sharded' if shards else 'single-file'} weights",
+                  flush=True)
+        hf = AutoModelForCausalLM.from_pretrained(src,
                                                   torch_dtype=torch.float32)
         if not hasattr(hf, "embed_out"):
             hf.embed_out = getattr(hf, "lm_head", None) \
@@ -69,6 +88,14 @@ def load_tl(name: str):
         del hf
     else:
         m = HookedTransformer.from_pretrained(name, **kw).eval()
+    if random_init:
+        # Same architecture and shapes, freshly initialized weights
+        # (TransformerLens default init, seed 0): the calibration check
+        # that the census sits at chance before training.
+        torch.manual_seed(0)
+        m = HookedTransformer(m.cfg)
+        m.init_weights()
+        m = m.eval()
     return m
 
 
@@ -556,9 +583,17 @@ def main():
     ap.add_argument("--n-rot", type=int, default=500)
     ap.add_argument("--stream-load", action="store_true",
                     help="layer-streamed extraction (for 6.9B RAM limits)")
+    ap.add_argument("--revision", default=None,
+                    help="HF checkpoint revision, e.g. step16000 (Pythia)")
+    ap.add_argument("--random-init", action="store_true",
+                    help="map a randomly initialized model of this shape")
+    ap.add_argument("--census-only", action="store_true",
+                    help="stop after the head-head census (theory_census.json)")
     args = ap.parse_args()
     global OUT_DIR
-    out = REPO / "results" / "map" / args.model
+    tag = args.model + (f"@{args.revision}" if args.revision else "") \
+        + ("-init" if args.random_init else "")
+    out = REPO / "results" / "map" / tag
     OUT_DIR = out
     out.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(0)
@@ -569,7 +604,7 @@ def main():
     if args.stream_load:
         W = stream_extract(args.model)
     else:
-        model = load_tl(args.model)
+        model = load_tl(args.model, args.revision, args.random_init)
         W = extract(model)
         # hard-free: TL holds circular refs, so break storages too
         for p in model.parameters():
@@ -596,6 +631,11 @@ def main():
     census = theory_census(W, rows)
     marks["census"] = time.time() - t
     print(f"  census done {marks['census']:.0f}s", flush=True)
+    (out / "theory_census.json").write_text(json.dumps(census, indent=2))
+    if args.census_only:
+        print(f"  census-only run, wrote {out / 'theory_census.json'}",
+              flush=True)
+        return
     t = time.time()
     interfaces_head(W, hh, args.n_rot, rows, rng)
     marks["interfaces_head"] = time.time() - t
@@ -654,6 +694,7 @@ def main():
                    dims={k: W[k] for k in ("L", "H", "d", "dh", "d_mlp")},
                    learned_pos=W["learned_pos"],
                    parallel_blocks=bool(W.get("parallel_blocks", False)),
+                   revision=args.revision, random_init=args.random_init,
                    total_candidates=int(famdf["n_edges"].sum()),
                    n_wires=int(len(nn["wires"])))
     (out / "summary.json").write_text(json.dumps(summary, indent=2))

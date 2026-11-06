@@ -44,7 +44,18 @@ STAGES = {
              [f"{E}/app2_pilot.py", "gpt2-large"],
              [f"{E}/app2_pilot.py", "pythia-160m"],
              [f"{E}/app2_pilot.py", "gpt-neo-125M"],
-             [f"{E}/app2_rule_robustness.py"]],
+             [f"{E}/app2_rule_robustness.py"],
+             [f"{E}/app2_block_losses.py"]],
+    "training": [[f"{E}/map_build.py", "gpt2", "--random-init", "--census-only"],
+                 [f"{E}/map_build.py", "pythia-160m", "--revision", "step0"],
+                 [f"{E}/map_build.py", "pythia-160m", "--revision", "step1000"],
+                 [f"{E}/map_build.py", "pythia-160m", "--revision", "step4000"],
+                 [f"{E}/map_build.py", "pythia-160m", "--revision", "step16000"],
+                 [f"{E}/map_build.py", "pythia-160m", "--revision", "step64000"],
+                 [f"{E}/map_build.py", "pythia-2.8b", "--revision", "step1000", "--census-only"],
+                 [f"{E}/map_build.py", "pythia-2.8b", "--revision", "step4000", "--census-only"],
+                 [f"{E}/map_build.py", "pythia-2.8b", "--revision", "step128000", "--census-only"],
+                 [f"{E}/census_training.py"]],
     "verify": [[f"{E}/verify_mc_nulls.py"],
                [f"{E}/verify_both_sides.py"],
                [f"{E}/verify_null_estimators.py"],
@@ -52,7 +63,7 @@ STAGES = {
                [f"{E}/verify_null_shape.py"]],
     "test": [[f"{E}/test_pipeline_synthetic.py"]],
 }
-ORDER = ["map", "app1", "app2", "verify", "test"]
+ORDER = ["map", "app1", "app2", "training", "verify", "test"]
 
 
 def main():

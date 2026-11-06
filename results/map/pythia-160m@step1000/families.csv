@@ -1,0 +1,15 @@
+cls,n_edges,max_stat,null_kind
+head_neuron,2433024,0.09096924960613251,scored
+neuron_head_K,2433024,0.18056288361549377,scored
+neuron_head_Q,2433024,0.23261918127536774,scored
+neuron_head_V,2433024,0.11976068466901779,scored
+head_head_K,9504,0.12246238236852108,raw
+head_head_Q,9504,0.08700254213900238,raw
+head_head_V,9504,0.10148826199651018,raw
+emb_head_K,144,0.03673019450875284,rotation-dense
+emb_head_Q,144,0.03663878338186241,rotation-dense
+emb_head_V,144,0.03704463815642614,rotation-dense
+head_unembed,144,0.05493807496585884,rotation-dense
+emb_neuron,36864,0.03860996291614902,sphere-dense
+neuron_unembed,36864,0.09231257725153173,sphere-dense
+neuron_neuron,622854144,0.32683655619621277,exact-law

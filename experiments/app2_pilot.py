@@ -159,7 +159,7 @@ def readout(v):
             lp = F.log_softmax(model(pile[i:i+8]).float(), -1)
             tot += float((-lp[:, :-1].gather(-1, pile[i:i+8, 1:][..., None])
                           .squeeze(-1)).mean()) / (N_SEQ // 8)
-    return dict(gain=n1 - n2, pile=tot)
+    return dict(gain=n1 - n2, pile=tot, loss_first=n1, loss_second=n2)
 
 rule_mass = float((vecs[outlier2, :][:, spec_pair] ** 2).sum() / 2)
 print(f"outlier coords {outlier2} | rule-pair squared mass on them "
@@ -176,7 +176,8 @@ for k, v in conds.items():
     r = readout(v)
     out[k] = dict(gain=r["gain"], pile=r["pile"],
                   gain_destroyed=1 - r["gain"] / clean["gain"],
-                  dnll=r["pile"] - clean["pile"])
+                  dnll=r["pile"] - clean["pile"],
+                  loss_first=r["loss_first"], loss_second=r["loss_second"])
     o = out[k]
     print(f"{k:28s} gain destroyed {o['gain_destroyed']:7.1%} | "
           f"dNLL {o['dnll']:+6.2f}")

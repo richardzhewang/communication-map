@@ -1,12 +1,6 @@
-# The Communication Map of a Transformer
+# The Communication Map of a Transformer — code and results
 
-Code, results, and figures for the paper: [arXiv:2608.22007](https://arxiv.org/abs/2608.22007).
-
-> **Abstract.** The components of a transformer communicate by writing to and reading from a shared residual stream, and the mechanistic interpretability literature has mapped these connections by hand, one circuit at a time. We present the *communication map*, which charts every potential communication channel from the geometry of the model's weights alone, generalizing the composition score of Elhage et al. (2021) into a single *coupling coefficient* covering all 18 connection classes, from head-to-head to neuron-to-neuron and everything in between. We provide an account of the properties of the coupling coefficient, including its geometric interpretation and its exact chance level. The census finds that 70-89% of head pairs are oriented far from chance, some coupled strongly and others actively avoiding each other. We demonstrate the communication map in two novel applications. In Application 1, we recover the known induction circuits blind from the strongest head-to-head couplings and group the heads into communities, and ablating one such community destroys the model's in-context copying. In Application 2, we pool the coupling coefficients of every head to identify a distinct two-dimensional residual stream subspace, whose deletion abolishes the induction capability in six models up to Pythia-6.9B. We show that this subspace is different from those identified by either activation PCA or outlier dimensions. We release the map, the statistical machinery, and the intervention suite.
-
-![The head-to-head subgraph of the communication map of GPT-2](results/figures/fig_map_overview.png)
-
-## This repository The repository mirrors the
+Code, results, and figures for the paper. The repository mirrors the
 paper's structure: the **general map** scores every potential
 communication channel in a language model from weights alone and
 censuses the scores against the theoretical rotation null
@@ -140,6 +134,8 @@ paper/                 LaTeX source (not part of the code release)
 | Deletion table (Table 1), small models | app2_pilot | `results/app2/cs2_pilot_*.json` |
 | Deletion table, 2.8B/6.9B + dose curves | app2_scale | `results/app2/{model}/cs2_dose.json` |
 | Deletion table cosine columns | app2_overlaps | `results/app2/overlaps.json` |
+| Per-block losses behind the deletion table | app2_block_losses | `results/app2/block_losses.json` |
+| Census at initialization and across training | map_build (--random-init, --revision) + census_training | `results/map/{model}-init/`, `results/map/{model}@step*/`, `results/verification/census_training.json`, `results/figures/fig_census_training.png` |
 | Appendix A checks | verify_* | `results/verification/` |
 | Appendix null-shape figure | verify_null_shape | `results/figures/fig_null_z_hist.png`, `results/verification/null_shape_gpt2.json` |
 
@@ -156,20 +152,5 @@ list); the weight-side wire numbers all regenerate from map_build.
 - Eigensolver caveat: near-degenerate eigenvalues make band *indices*
   solver-dependent; the selection rule of Application 2 is stated on
   coupling shares (position specificity) and is unaffected.
-
-## License
-
-MIT (see LICENSE).
-
-## Citation
-
-If you use the map, the statistics, or the intervention suite, please cite:
-
-```bibtex
-@article{wang2026communicationmap,
-  title={The Communication Map of a Transformer},
-  author={Wang, Richard Zhe},
-  journal={arXiv preprint arXiv:2608.22007},
-  year={2026}
-}
-```
+- `parked/` contains retired analyses and internal notes. It is not part
+  of the release; `release.sh` builds the upload archive without it.

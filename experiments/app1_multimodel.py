@@ -134,6 +134,15 @@ def run_model(name):
                                means, ind, pile)
     full = cs1.knockout_metrics(model, [lab(h) for h in comm],
                                 means, ind, pile)
+    # Restricted comparison: only the behavioral induction heads that lie
+    # inside the community, and the community minus exactly those heads.
+    comm_in = set(comm)
+    IND_in = [h for h in IND if h in comm_in]
+    five_in = cs1.knockout_metrics(model, [lab(h) for h in IND_in],
+                                   means, ind, pile)
+    rem_in = cs1.knockout_metrics(model, [lab(h) for h in comm
+                                          if h not in set(IND_in)],
+                                  means, ind, pile)
 
     # Layer-matched controls: exact size and per-layer head counts. Where a
     # layer holds more community heads than other heads, the shortfall is
@@ -161,7 +170,16 @@ def run_model(name):
                ctrl_overlap=[int(o) for o in overlaps],
                ctrl_size_median=float(np.median(ctrl_size)),
                ctrl_size_max=float(np.max(ctrl_size)),
-               pile_dnll=float(full["pile"] - clean["pile"]))
+               pile_dnll=float(full["pile"] - clean["pile"]),
+               n_ind_in=int(len(IND_in)),
+               five_in=float(frac(five_in)),
+               remainder_in=float(frac(rem_in)),
+               losses={k: dict(first=float(v["loss_first"]),
+                               second=float(v["loss_second"]))
+                       for k, v in [("clean", clean), ("five", five),
+                                    ("remainder", rem), ("full", full),
+                                    ("five_in", five_in),
+                                    ("remainder_in", rem_in)]})
     print(f"  [{name}] clean {row['clean_gap']:.2f} | five "
           f"{row['five']:.1%} | remainder {row['remainder']:.1%} | full "
           f"{row['full']:.1%} | ctrl med {row['ctrl_median']:.1%} "

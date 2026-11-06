@@ -61,6 +61,8 @@ gr = lambda r: 1 - r["gap"] / clean["gap"]
 nr = lambda r: r["pile"] - clean["pile"]
 
 out = {"clean_gap": clean["gap"], "clean_pile": clean["pile"],
+       "clean_loss_first": clean["loss_first"],
+       "clean_loss_second": clean["loss_second"],
        "induction_heads": A, "community": C_ind}
 for key, hs in [("A_five_heads", A), ("B_comm_minus_five", B),
                 ("C_whole_comm", C_ind)]:
@@ -69,6 +71,7 @@ for key, hs in [("A_five_heads", A), ("B_comm_minus_five", B),
             for s in layer_matched_controls(hs)]
     out[key] = dict(
         n=len(hs), gap_destroyed=gr(r), pile_rise=nr(r),
+        loss_first=r["loss_first"], loss_second=r["loss_second"],
         ctrl_gap_destroyed_median=float(np.median([gr(c) for c in ctrl])),
         ctrl_gap_destroyed_max=float(max(gr(c) for c in ctrl)),
         ctrl_pile_rise_median=float(np.median([nr(c) for c in ctrl])))
@@ -95,6 +98,7 @@ if __name__ != "__refine_guard__":
                 for s in layer_matched_controls(hs)]
         out[key] = dict(
             n=len(hs), gap_destroyed=gr(r), pile_rise=nr(r),
+        loss_first=r["loss_first"], loss_second=r["loss_second"],
             ctrl_gap_destroyed_median=float(np.median([gr(c) for c in ctrl])),
             ctrl_gap_destroyed_max=float(max(gr(c) for c in ctrl)),
             ctrl_pile_rise_median=float(np.median([nr(c) for c in ctrl])))

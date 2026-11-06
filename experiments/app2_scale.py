@@ -151,7 +151,7 @@ def readout(V):
                       .squeeze(-1)).mean()) / nb
         del lp
     PROJ["V"] = None
-    return dict(gain=n1 - n2, pile=tot)
+    return dict(gain=n1 - n2, pile=tot, loss_first=n1, loss_second=n2)
 
 # ---- shares, conditions --------------------------------------------------
 prof = mid_layer_states(rt).mean(0).double().numpy()     # [pos, d]
@@ -217,7 +217,8 @@ for k, V in conds.items():
     r = readout(V)
     out[k] = dict(gain=r["gain"], pile=r["pile"],
                   gain_destroyed=1 - r["gain"] / clean["gain"],
-                  dnll=r["pile"] - clean["pile"], n_dims=int(V.shape[1]))
+                  dnll=r["pile"] - clean["pile"], n_dims=int(V.shape[1]),
+                  loss_first=r["loss_first"], loss_second=r["loss_second"])
     o = out[k]
     print(f"{k:40s} dims {o['n_dims']} | destroyed "
           f"{o['gain_destroyed']:7.1%} | dNLL {o['dnll']:+6.2f}", flush=True)

@@ -25,7 +25,36 @@
     ],
     "ctrl_size_median": 0.023875313170407444,
     "ctrl_size_max": 0.05484121564762932,
-    "pile_dnll": 0.5099009871482849
+    "pile_dnll": 0.5099009871482849,
+    "n_ind_in": 5,
+    "five_in": 0.6082630179267804,
+    "remainder_in": 0.7287600392030364,
+    "losses": {
+      "clean": {
+        "first": 12.607914924621582,
+        "second": 0.21229879930615425
+      },
+      "five": {
+        "first": 12.506077527999878,
+        "second": 7.650256276130676
+      },
+      "remainder": {
+        "first": 12.41832447052002,
+        "second": 9.056138038635254
+      },
+      "full": {
+        "first": 12.41281795501709,
+        "second": 11.758259057998657
+      },
+      "five_in": {
+        "first": 12.506077527999878,
+        "second": 7.650256276130676
+      },
+      "remainder_in": {
+        "first": 12.41832447052002,
+        "second": 9.056138038635254
+      }
+    }
   },
   "gpt2-medium": {
     "model": "gpt2-medium",
@@ -53,7 +82,36 @@
     ],
     "ctrl_size_median": 0.02003600192526571,
     "ctrl_size_max": 0.02750743267381011,
-    "pile_dnll": 0.48487377166748047
+    "pile_dnll": 0.48487377166748047,
+    "n_ind_in": 5,
+    "five_in": 0.04710266444680698,
+    "remainder_in": 0.7538669102387131,
+    "losses": {
+      "clean": {
+        "first": 12.603411197662354,
+        "second": 0.19921384751796722
+      },
+      "five": {
+        "first": 12.43554139137268,
+        "second": 0.6156147867441177
+      },
+      "remainder": {
+        "first": 12.537864208221436,
+        "second": 9.48478078842163
+      },
+      "full": {
+        "first": 12.519237518310547,
+        "second": 11.700217008590698
+      },
+      "five_in": {
+        "first": 12.43554139137268,
+        "second": 0.6156147867441177
+      },
+      "remainder_in": {
+        "first": 12.537864208221436,
+        "second": 9.48478078842163
+      }
+    }
   },
   "gpt2-large": {
     "model": "gpt2-large",
@@ -81,7 +139,36 @@
     ],
     "ctrl_size_median": 0.23925180871690585,
     "ctrl_size_max": 0.5345506992634625,
-    "pile_dnll": 4.771980166435242
+    "pile_dnll": 4.771980166435242,
+    "n_ind_in": 4,
+    "five_in": 0.00960046693482317,
+    "remainder_in": 1.0202299498951672,
+    "losses": {
+      "clean": {
+        "first": 12.559476852416992,
+        "second": 0.24278733506798744
+      },
+      "five": {
+        "first": 12.461019277572632,
+        "second": 0.5858360379934311
+      },
+      "remainder": {
+        "first": 14.843973636627197,
+        "second": 15.0931396484375
+      },
+      "full": {
+        "first": 14.731316804885864,
+        "second": 15.773485660552979
+      },
+      "five_in": {
+        "first": 12.506654262542725,
+        "second": 0.30821071565151215
+      },
+      "remainder_in": {
+        "first": 14.843973636627197,
+        "second": 15.0931396484375
+      }
+    }
   },
   "gpt-neo-125m": {
     "model": "gpt-neo-125m",
@@ -109,7 +196,36 @@
     ],
     "ctrl_size_median": 0.6348123679214002,
     "ctrl_size_max": 0.8879125809417848,
-    "pile_dnll": 6.907512843608856
+    "pile_dnll": 6.907512843608856,
+    "n_ind_in": 5,
+    "five_in": 0.6367263992723223,
+    "remainder_in": 1.0052618980475763,
+    "losses": {
+      "clean": {
+        "first": 13.342888832092285,
+        "second": 0.42041490226984024
+      },
+      "five": {
+        "first": 13.806984901428223,
+        "second": 9.11259126663208
+      },
+      "remainder": {
+        "first": 14.60649561882019,
+        "second": 14.674492359161377
+      },
+      "full": {
+        "first": 15.161223649978638,
+        "second": 15.326458930969238
+      },
+      "five_in": {
+        "first": 13.806984901428223,
+        "second": 9.11259126663208
+      },
+      "remainder_in": {
+        "first": 14.60649561882019,
+        "second": 14.674492359161377
+      }
+    }
   },
   "pythia-160m": {
     "model": "pythia-160m",
@@ -137,7 +253,36 @@
     ],
     "ctrl_size_median": 0.06916769725851295,
     "ctrl_size_max": 0.2816444470143702,
-    "pile_dnll": 0.516243577003479
+    "pile_dnll": 0.516243577003479,
+    "n_ind_in": 3,
+    "five_in": 0.18537942625173745,
+    "remainder_in": 0.9205795361347581,
+    "losses": {
+      "clean": {
+        "first": 24.545133113861084,
+        "second": 7.328608393669128
+      },
+      "five": {
+        "first": 24.223295211791992,
+        "second": 17.340839385986328
+      },
+      "remainder": {
+        "first": 23.95029306411743,
+        "second": 22.582948684692383
+      },
+      "full": {
+        "first": 24.46393585205078,
+        "second": 22.095499992370605
+      },
+      "five_in": {
+        "first": 24.48985767364502,
+        "second": 10.464922428131104
+      },
+      "remainder_in": {
+        "first": 23.95029306411743,
+        "second": 22.582948684692383
+      }
+    }
   },
   "pythia-2.8b": {
     "model": "pythia-2.8b",
@@ -165,7 +310,36 @@
     ],
     "ctrl_size_median": 0.029284871670570322,
     "ctrl_size_max": 0.03804960259609643,
-    "pile_dnll": 3.617485225200653
+    "pile_dnll": 3.617485225200653,
+    "n_ind_in": 4,
+    "five_in": 0.35711348494518147,
+    "remainder_in": 0.9686511179402011,
+    "losses": {
+      "clean": {
+        "first": 12.780800104141235,
+        "second": 0.4089747592806816
+      },
+      "five": {
+        "first": 12.688950061798096,
+        "second": 5.425167560577393
+      },
+      "remainder": {
+        "first": 12.749833822250366,
+        "second": 12.361990928649902
+      },
+      "full": {
+        "first": 12.67567753791809,
+        "second": 12.312002897262573
+      },
+      "five_in": {
+        "first": 12.69909381866455,
+        "second": 4.745414137840271
+      },
+      "remainder_in": {
+        "first": 12.749833822250366,
+        "second": 12.361990928649902
+      }
+    }
   },
   "pythia-6.9b": {
     "error": "process killed during fp32 model assembly: the runnable 6.9B model (HF fp32 copy + TransformerLens processing copy) exceeds host memory; map building avoids this by streaming weights, but ablation requires the assembled model"
