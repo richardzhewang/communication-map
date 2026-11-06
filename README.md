@@ -12,10 +12,9 @@ The repository mirrors the
 paper's structure: the **general map** scores every potential
 communication channel in a language model from weights alone and
 censuses the scores against the theoretical rotation null
-distribution; **Application 1** selects the strongest head-to-head
-couplings and tests the resulting communities by ablation;
-**Application 2** finds and deletes an induction-critical stream
-subspace.
+distribution; the **head graph** selects the strongest head-to-head couplings,
+groups them into communities, and validates the map by ablation; the
+**application** finds and deletes an induction-critical stream subspace.
 
 The repository has two content trees: `experiments/` holds every line
 of code (scripts prefixed by their role, plus the `lib/commap` library
