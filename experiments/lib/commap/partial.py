@@ -12,7 +12,7 @@ dominates; the top-k eigendirections of the pool are the directions
 'everything' reads/writes -- mechanical/rogue/positional candidates
 (Timkey & van Schijndel 2021). k is chosen by inspection of the eigenvalue
 spectrum plus the Ahn-Horenstein eigenvalue-ratio estimate (both reported);
-full Bai-Ng / Onatski factor counting is design-doc S10.1 work, TODO v1.
+full Bai-Ng / Onatski factor counting is left for future work.
 """
 
 from __future__ import annotations
