@@ -73,7 +73,7 @@ experiments/
   map_fig_wires.py     Figure 3 (neuron cosine distribution vs the
                        exact chance law)
 
-  app1_select.py       Application 1's selection standard: empirical
+  app1_select.py       the edge-selection standard: empirical
                        null distributions (median/MADN per stratum) +
                        per-class BH at q = 0.05, head classes only
   app1_communities.py  Louvain partition of the selected head graph;
@@ -157,7 +157,7 @@ list); the weight-side wire numbers all regenerate from map_build.
   fixed public slice of pile-10k, both constructed in
   `experiments/lib/`.
 - Eigensolver caveat: near-degenerate eigenvalues make band *indices*
-  solver-dependent; the selection rule of Application 2 is stated on
+  solver-dependent; the band-selection rule of the application is stated on
   coupling shares (position specificity) and is unaffected.
 
 ## License
