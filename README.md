@@ -138,6 +138,7 @@ results/
 | Head-graph figure, communities, layer-separation table | app1_communities + app1_fig_map | `results/figures/`, `results/app1/head_communities_seed0.json` |
 | GPT-2 community decomposition and corpus-seed check | app1_ablation + app1_seed_check | `results/app1/decomposition_gpt2*.json` |
 | Community ablation across six models (both control types, in-community induction heads, block losses) | app1_multimodel | `results/app1/community_replication.json` |
+| Neuron writers into the induction heads and their ablation | app1_neuron_writers | `results/app1/neuron_writers_{model}.json` |
 | Subspace deletion table, small models | app2_pilot | `results/app2/cs2_pilot_*.json` |
 | Subspace deletion, 2.8B/6.9B, and dose curves | app2_scale | `results/app2/{model}/cs2_dose.json` |
 | Principal cosines between the RW-PCA and baseline subspaces | app2_overlaps | `results/app2/overlaps.json` |
