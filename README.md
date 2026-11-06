@@ -84,7 +84,7 @@ experiments/
   app1_multimodel.py   the four-model community-ablation replication
 
   app2_fig_bands.py    Figure 4 (pooled coupling matrix spectrum)
-  app2_pilot.py        band selection rule + baseline deletions, per
+  app2_pilot.py        band selection rule + comparison-subspace deletions, per
                        model (arg: model name, seed)
   app2_scale.py        the deletions at scale, HF-native fp32 forwards
                        with a dose curve
@@ -140,7 +140,7 @@ results/
 | Neuron writers into the induction heads and their ablation | app1_neuron_writers | `results/app1/neuron_writers_{model}.json` |
 | Subspace deletion table, small models | app2_pilot | `results/app2/cs2_pilot_*.json` |
 | Subspace deletion, 2.8B/6.9B, and dose curves | app2_scale | `results/app2/{model}/cs2_dose.json` |
-| Principal cosines between the RW-PCA and baseline subspaces | app2_overlaps | `results/app2/overlaps.json` |
+| Principal cosines between the RW-PCA and comparison subspaces | app2_overlaps | `results/app2/overlaps.json` |
 | Per-block losses behind the deletion table | app2_block_losses | `results/app2/block_losses.json` |
 | Census at initialization and across training | map_build (--random-init, --revision) + census_training | `results/map/{model}-init/`, `results/map/{model}@step*/`, `results/verification/census_training.json`, `results/figures/fig_census_training.png` |
 | Null-distribution and estimator checks (Appendix A) | verify_* | `results/verification/` |
