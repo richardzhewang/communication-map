@@ -1,5 +1,4 @@
-"""Per-head node decompositions (core-research-explainer.tex S3), float64 on
-CPU (D6).
+"""Per-head node decompositions, float64 on CPU.
 
 For each head (l, h):
   - SVD of F = W_QK:  F = sum_k sigma_k u_k v_k^T
@@ -29,7 +28,7 @@ def effective_rank(s: np.ndarray) -> float:
     """Entropy-based effective rank: exp(H(p)), p_k = s_k^2 / sum s^2.
 
     A truncation-free summary of how many channels a head really uses
-    (reported descriptively; the D1 statistic needs no truncation).
+    (reported descriptively; the edge statistic needs no truncation).
     """
     p = s**2 / np.sum(s**2)
     p = p[p > 0]

@@ -1,4 +1,4 @@
-"""Null distributions (decision D2, revised v0.1).
+"""Null distributions.
 
 Two null regimes, chosen per family by SIGNAL DENSITY:
 
@@ -7,10 +7,10 @@ Two null regimes, chosen per family by SIGNAL DENSITY:
    statistic distribution is the null; fit median/MAD, score outliers.
    Anisotropy-preserving by construction. Strata = layer span.
 
-2. DENSE-signal families (emb_*, pos_*, head_unembed): the v0 run showed the
+2. DENSE-signal families (emb_*, pos_*, head_unembed): early runs showed the
    bulk null FAILS here -- e.g. most layer-1/2 heads genuinely read POS
    (stratum median 0.14 vs 0.03 elsewhere), so the "bulk" absorbs the signal
-   and a 12-observation stratum has no power (the R4 artifact). v0.1 uses the
+   and a 12-observation stratum has no power. These families use the
    HAAR ROTATION null for these families instead: rotate the interface matrix,
    recompute the statistic, moment-fit z = (obs - mean_rot)/sd_rot. This is
    the isotropic null -- anti-conservative under anisotropy -- so interface-class
@@ -140,7 +140,7 @@ def add_interface_rotation_null(
 def haar_rotation_null(
     G: np.ndarray, Hm: np.ndarray, n_rot: int = 500, seed: int = 0
 ) -> np.ndarray:
-    """Isotropic baseline (core-research-explainer.tex S3.6) for ONE edge:
+    """Isotropic baseline for ONE edge:
     [n_rot] null stats."""
     d = G.shape[0]
     rng = np.random.default_rng(seed)
@@ -155,8 +155,8 @@ def haar_rotation_null(
 
 def widening_report(df: pd.DataFrame, w, n_pairs: int = 8, n_rot: int = 200,
                     seed: int = 0) -> pd.DataFrame:
-    """Empirical vs isotropic null widths for random head_head_K pairs (D2:
-    the widening factor is a reported finding; v0 measured 6-28x)."""
+    """Empirical vs isotropic null widths for random head_head_K pairs (the
+    widening factor is a reported finding; early runs measured 6-28x)."""
     from .edges import head_grams
 
     hg = head_grams(w)

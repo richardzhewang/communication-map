@@ -1,11 +1,11 @@
 """Robustness of the position profile to its sample size (paper App. D).
 
 Rebuilds the rotary position profile of pythia-160m from n = 4..128
-random-token sequences (three fresh seeds per size, plus the frozen
-seed 0 at n = 32) and applies the frozen selection rule to each. Result:
+random-token sequences (three fresh seeds per size, plus the fixed
+seed 0 at n = 32) and applies the fixed selection rule to each. Result:
 every run selects the identical pair, the selected bands' positional
 shares stay at 125x chance or more, and no unselected band exceeds 28x,
-so the frozen n = 32 carries a large margin.
+so the fixed n = 32 carries a large margin.
 
 Usage: .venv/bin/python experiments/s7c_profile_samplesize.py
 """

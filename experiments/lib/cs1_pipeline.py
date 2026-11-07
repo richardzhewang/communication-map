@@ -1,10 +1,10 @@
 """Community-organ universality: head-head map -> Louvain -> knockout,
 generalized to arbitrary TL models (self-contained reimplementation; the
-frozen commap package is untouched).
+commap package is untouched).
 
 Per model:
   1. head-head composition map, all K/Q/V slots, sigma-weighted statistic
-     C = |R M|_F / (|R|_F |M|_F) via d_head-space Grams (D1), writer layer <
+     C = |R M|_F / (|R|_F |M|_F) via d_head-space Grams, writer layer <
      reader layer;
   2. empirical bulk null per (slot, layer-span) stratum (robust
      center/scale: median + IQR/1.349 — simplified Efron central matching),

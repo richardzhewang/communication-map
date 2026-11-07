@@ -1,7 +1,4 @@
-"""Shared utilities for the Case-study-2 pilot (pooled bands and
-corpora), extracted from the retired seven-model battery runner (now in
-parked/subspace-battery-2026-08-11/) so the release package has no
-dependency on parked code.
+"""Shared utilities for the application pilot (pooled bands and corpora).
 """
 import numpy as np
 import torch
@@ -17,7 +14,7 @@ def rank_bands(shares):
                   key=lambda b: -shares[b][0] / max(shares[b][1], 1e-12))
 
 def pooled_bands(model):
-    """Top-10 eigendirections of the pooled second moment (D3 recipe)."""
+    """Top-10 eigendirections of the pooled second moment."""
     cfg = model.cfg
     with torch.no_grad():
         S = torch.zeros(cfg.d_model, cfg.d_model, dtype=torch.float64,

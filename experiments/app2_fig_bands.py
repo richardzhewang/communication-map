@@ -1,8 +1,7 @@
 """Paper figure fig_bands.png: eigenvalue spectrum of the pooled second
-moment, k=5 marked. Replaces the old three-panel version (its shape-taxonomy
-panels were retired 2026-08-11).
+moment, k=5 marked.
 
-Run: uv run --with matplotlib python experiments/s3c_fig_bands.py
+Run: uv run python experiments/app2_fig_bands.py
 """
 import sys
 

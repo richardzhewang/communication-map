@@ -1,6 +1,6 @@
-"""Tiled neuron->neuron edge stream (v1): the 1e9-cosine class.
+"""Tiled neuron->neuron edge stream: the 1e9-cosine class.
 
-Design S8 mechanics, two passes over (l_w, l_r) layer-pair tiles (l_w < l_r,
+Two passes over (l_w, l_r) layer-pair tiles (l_w < l_r,
 66 tiles of [d_mlp, d_mlp] = 9.4e6 cosines each; a tile is one GEMM):
 
   PASS 1  accumulate a per-span histogram of cos(w_out, w_in) (span = l_r -
@@ -9,18 +9,17 @@ Design S8 mechanics, two passes over (l_w, l_r) layer-pair tiles (l_w < l_r,
   FIT     Efron central matching per span from the histogram: med = Q50,
           sd = IQR/1.349 (quantiles interpolated from the cumulative
           histogram; bin width 2/n_bins in cosine units bounds the error).
-          Isotropic baseline sd = 1/sqrt(d) closed-form (S5.1); the per-span
+          Isotropic baseline sd = 1/sqrt(d) closed-form; the per-span
           widening factor emp_sd * sqrt(d) is reported.
   BH      binned BH over the whole family (fdr.bh_from_binned): map each bin
           to a p-value via its span's fit, cutoff from bin counts. Sidedness:
           TWO-SIDED on |z| by default -- a strong negative alignment is a real
-          (sign-flipping) channel. PRE-REGISTRATION NOTE: freeze `two_sided`
-          before the first real run.
+          (sign-flipping) channel.
   PASS 2  recompute tiles, keep edges in significant bins only (per-span
           cosine thresholds derived from the BH cutoff), emit survivors with
           binned z/p/q plus exact z for ranking.
 
-Torch backend: tiles run on --device (cuda on the 5090; cpu works, ~1e12 flop
+Torch backend: tiles run on --device (cuda; cpu works, ~1e12 flop
 total for GPT-2 small). Histograms and survivor bookkeeping are numpy on CPU.
 
 Memory: never holds more than one [d_mlp, d_mlp] tile (float32, 38 MB) plus
@@ -159,7 +158,7 @@ def stream_neuron_neuron(
         if n_surv > max_survivors:
             raise RuntimeError(
                 f"survivor count exceeded {max_survivors:.0g} -- null fit "
-                "suspect (dense signal? see the R4/A1 lesson); not collecting.")
+                "suspect (dense signal?); not collecting.")
         cols["l_w"].append(np.full(iw.size, lw, dtype=np.int16))
         cols["m_w"].append(iw.astype(np.int32))
         cols["l_r"].append(np.full(ir.size, lr, dtype=np.int16))

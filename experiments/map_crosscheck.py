@@ -1,9 +1,8 @@
-"""v1 pipeline: v0.1 head map + MLP neuron classes (design S12 D5, stage 2).
+"""Independent CPU implementation of the head map plus the MLP neuron classes,
+retained as a cross-check of map_build.py.
 
-SCAFFOLD -- written on the Mac, intended to run on the Linux/RTX-5090 box
-(neuron_neuron is ~6e8 cosines after the causal mask; the tiles are one GEMM
-each so CPU works, but GPU makes pass1+pass2 seconds). Before the first real
-run, freeze the open pre-registration decisions marked PRE-REG below.
+neuron_neuron is ~6e8 cosines after the causal mask; the tiles are one GEMM
+each so CPU works, but GPU makes pass1+pass2 seconds.
 
 Usage:
     uv run python experiments/map_crosscheck.py [--out results/verification/crosscheck] [--q 0.05]
@@ -11,14 +10,14 @@ Usage:
 
 Stages:
     1. load model once; heads (weights.py) + neurons (neurons.py)
-    2. head-map families exactly as v0.1 (dual stats, bulk/rotation nulls)
+    2. head-map families (dual stats, bulk/rotation nulls)
     3. mixed classes head<->neuron + interface-matrix<->neuron (dense, ~1e7 edges,
        survivors kept)
     4. neuron_neuron via the tiled stream (histogram BH, survivors kept)
-    5. the same for the partialled map (D3)
-    6. R2-mediation query (EXPLORATORY, not pre-registered): neurons that
+    5. the same for the partialled map
+    6. R2-mediation query (exploratory): neurons that
        significantly read an S-inhibition head's OV AND significantly write
-       into a name-mover's Q-side -- the v0.1 memo's live hypothesis (i).
+       into a name-mover's Q-side.
 
 Outputs in --out:
     families_v1.csv          per-family counts, all classes
@@ -30,13 +29,12 @@ Outputs in --out:
     r2_mediation.csv         exploratory two-hop table
     summary.json
 
-PRE-REG decisions FROZEN 2026-08-08, before any real v1 run on this box:
+Fixed analysis decisions:
     P1  neuron_neuron sidedness: TWO-SIDED on |z| (a strong negative
-        alignment is a sign-flipping channel; cf. the L4H7 sign lesson)
-    P2  pooled global directions (D3): v0's head+interface-matrix pool, unchanged,
-        for comparability with the v0/v0.1 partialled maps (neuron vectors
-        NOT added to the pooled second moment)
-    P3  v1 recovery criterion: NONE -- R2-mediation stays an exploratory
+        alignment is a sign-flipping channel)
+    P2  pooled global directions: the head+interface-matrix pool (neuron
+        vectors NOT added to the pooled second moment)
+    P3  recovery criterion: NONE -- R2-mediation stays an exploratory
         query (no principled pass/fail threshold exists for it yet)
 """
 
@@ -61,7 +59,7 @@ from commap.weights import load_gpt2, load_model
 
 
 def head_map(w, q_level, n_rot):
-    """The head-family map (same code path, D5)."""
+    """The head-family map (same code path as commap)."""
     from commap.edges import compute_edges
     from commap.fdr import add_fdr
     from commap.nulls import add_interface_rotation_null, add_empirical_null
@@ -128,9 +126,9 @@ def main() -> None:
     ap.add_argument("--n-bins", type=int, default=4001)
     ap.add_argument("--device", default="auto", help="cuda | mps | cpu | auto")
     ap.add_argument("--one-sided", action="store_true",
-                    help="PRE-REG P1: score neuron_neuron on the upper tail only")
+                    help="P1: score neuron_neuron on the upper tail only")
     ap.add_argument("--skip-head-map", action="store_true",
-                    help="skip the v0.1 head families (already recorded)")
+                    help="skip the head families (already recorded)")
     ap.add_argument("--model", default="gpt2")
     args = ap.parse_args()
     out = Path(args.out)
@@ -144,7 +142,7 @@ def main() -> None:
     del model
 
     if not args.skip_head_map:
-        print("[2/6] head families (v0.1 code path) ...")
+        print("[2/6] head families ...")
         hm = head_map(w, args.q, args.n_rot)
         hm.to_csv(out / "edges_heads_raw.csv.gz", index=False)
     else:
@@ -154,7 +152,7 @@ def main() -> None:
     mixed_raw, fam_raw = one_map("raw", w, nw, args, out)
 
     print(f"[4/6] partialled map (k={args.k_global}) ...")
-    Vk, eigvals = global_directions(w, args.k_global)   # PRE-REG P2: head pool
+    Vk, eigvals = global_directions(w, args.k_global)   # P2: head pool
     w_p, _ = partialled_weights(w, k=args.k_global)
     nw_p = partial_neurons(nw, Vk)
     _, fam_part = one_map("partial", w_p, nw_p, args, out)
@@ -168,7 +166,7 @@ def main() -> None:
 
     print("[6/6] summary ...")
     meta = dict(
-        version="v1-scaffold", model=args.model, q_level=args.q,
+        version="crosscheck", model=args.model, q_level=args.q,
         k_global=args.k_global, n_bins=args.n_bins,
         two_sided_nn=not args.one_sided,
         ahn_horenstein_k=ahn_horenstein(eigvals),

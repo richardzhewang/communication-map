@@ -1,5 +1,5 @@
-"""Load GPT-2 small weights via TransformerLens and convert to the memo's
-column-vector convention, with explicit convention guards (decision D6).
+"""Load GPT-2 small weights via TransformerLens and convert to the
+column-vector convention, with explicit convention guards.
 
 TransformerLens (row convention, activations are row vectors):
     q_i = x_i @ W_Q[l,h]          W_Q: [n_layers, n_heads, d_model, d_head]
@@ -7,7 +7,7 @@ TransformerLens (row convention, activations are row vectors):
     head out  = sum_j A_ij (x_j @ W_V[l,h]) @ W_O[l,h]
     logits    = x @ W_U           W_U: [d_model, d_vocab]
 
-Column convention used everywhere downstream (core-research-explainer.tex S2):
+Column convention used everywhere downstream:
     F  := W_QK = Q K^T            [d, d]  bilinear form: logit ~ x_i^T F x_j
           where Q = W_Q[l,h] [d, d_head], K = W_K[l,h] [d, d_head]
     M  := W_OV = O_col V^T        [d, d]  operator: Delta x = M x
@@ -20,7 +20,7 @@ The bilinear form F is the SAME matrix under both conventions
 (x_i F x_j^T row == xi^T F xj column); the operator transposes
 (row: x M_row -> column: M_row^T x), hence M = (V @ O).T = O_col @ V.T.
 
-Weight processing (D6): fold_ln=True (absorbs LayerNorm gain diag(gamma)C into
+Weight processing: fold_ln=True (absorbs LayerNorm gain diag(gamma)C into
 the reading weights), center_writing_weights=True (removes the 1-direction from
 all writers), center_unembed=True. All arrays converted to float64 numpy.
 """
@@ -39,7 +39,7 @@ class Weights:
     """Column-convention weights, float64 numpy.
 
     Factor matrices are kept (not just the [d,d] products) because both the
-    edge statistics and the partialled map (D3) are cheaper on factors.
+    edge statistics and the partialled map are cheaper on factors.
     """
 
     Q: np.ndarray      # [L, H, d, d_head]  query-side factor of F
@@ -60,14 +60,14 @@ class Weights:
 
 
 def load_model(model_name: str = "gpt2"):
-    """The processed HookedTransformer (D6 flags). Shared by heads (load_gpt2)
+    """The processed HookedTransformer (processing flags). Shared by heads (load_gpt2)
     and neurons (neurons.load_neurons) so the model is only loaded once."""
     from transformer_lens import HookedTransformer
 
     return HookedTransformer.from_pretrained(
         model_name,
-        fold_ln=True,                  # D6: LayerNorm gain folded into readers
-        center_writing_weights=True,   # D6: removes the 1-direction from writers
+        fold_ln=True,                  # LayerNorm gain folded into readers
+        center_writing_weights=True,   # removes the 1-direction from writers
         center_unembed=True,
         device="cpu",
     )
@@ -105,7 +105,7 @@ def _convention_guard(model, w: Weights, l: int = 3, h: int = 7) -> None:
     TL's model.QK[l,h].AB = W_Q @ W_K^T  (row conv)  == our F      (same matrix)
     TL's model.OV[l,h].AB = W_V @ W_O    (row conv)  == our M^T    (transposed)
 
-    This is the sign/side trap the memo's convention block (S2) exists for;
+    This is the sign/side trap the convention guards exist for;
     fail loudly rather than silently building a transposed map.
     """
     qk = model.QK[l, h].AB.detach().double().numpy()  # [d, d]

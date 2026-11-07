@@ -1,4 +1,4 @@
-"""Synthetic validation of the v1 machinery (no model, no GPU, seconds).
+"""Synthetic validation of the pipeline machinery (no model, no GPU, seconds).
 
     uv run python experiments/test_pipeline_synthetic.py
 

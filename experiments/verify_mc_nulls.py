@@ -1,11 +1,11 @@
-"""Monte Carlo confirmation of two memo theorems.
+"""Monte Carlo confirmation of two appendix results.
 
-Thm 3.10 (chance level, any spectra): E_Q[C^2] = 1/d for Haar Q,
+Chance level (any spectra, Appendix A): E_Q[C^2] = 1/d for Haar Q,
     C^2 = tr(Ghat . Q Hhat Q^T), for ANY unit-trace PSD profiles.
     -> test several spectrum shapes on both sides; mean must be 1/d
        regardless.
 
-Thm 3.13 (cosine null, exact): c = u^T v with v uniform on sphere
+Cosine null (exact, Appendix A): c = u^T v with v uniform on sphere
     -> c^2 ~ Beta(1/2, (d-1)/2); sign of c symmetric.
     -> KS tests at d = 3 (uniform c!), d = 8, d = 768; moment checks.
 """
@@ -35,9 +35,9 @@ def profile(d, kind):
     V = haar(d)
     return V @ (p[:, None] * V.T)
 
-# ---------------------------------------------------------- Theorem 3.10
+# ------------------------------------------------------- Chance level
 print("=" * 66)
-print("Theorem 3.10: E[C^2] = 1/d for any spectra")
+print("Chance level: E[C^2] = 1/d for any spectra")
 print("=" * 66)
 for d, n in [(64, 20000), (768, 2000)]:
     print(f"\nd = {d}  (1/d = {1/d:.6f}), n = {n} rotations per pair")
@@ -54,10 +54,10 @@ for d, n in [(64, 20000), (768, 2000)]:
             print(f"  G={gk:9s} H={hk:9s}: mean C^2 = {m:.6f}  "
                   f"SE {se:.2e}  z = {z:+.2f}")
 
-# ---------------------------------------------------------- Theorem 3.13
+# -------------------------------------------------------- Cosine null
 print()
 print("=" * 66)
-print("Theorem 3.13: c^2 ~ Beta(1/2, (d-1)/2)")
+print("Cosine null: c^2 ~ Beta(1/2, (d-1)/2)")
 print("=" * 66)
 for d, n in [(3, 300000), (8, 300000), (768, 300000)]:
     g = rng.standard_normal((n, d))
@@ -86,7 +86,7 @@ for d, n in [(3, 300000), (8, 300000), (768, 300000)]:
 # ------------------------------------------- Remark: normal proxy tails
 print()
 print("=" * 66)
-print("Normal proxy vs exact Beta tail at d = 768 (memo remark)")
+print("Normal proxy vs exact Beta tail at d = 768 (appendix remark)")
 print("=" * 66)
 d = 768
 beta = stats.beta(0.5, (d - 1) / 2)

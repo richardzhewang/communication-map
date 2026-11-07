@@ -1,11 +1,11 @@
-"""Edge statistics: the sigma-weighted composition norm (decision D1).
+"""Edge statistics: the sigma-weighted composition norm.
 
 For a writer with operator W (column conv, writes W x into the stream) and a
 reader with matrix R (reads through R x), the edge statistic is
 
     C = ||R W||_F / (||R||_F ||W||_F)   in [0, 1]
 
-(core-research-explainer.tex S3.5: ||R W||_F^2 = sum_{k,l} sigma_k^2 s_l^2
+(||R W||_F^2 = sum_{k,l} sigma_k^2 s_l^2
 cos^2(angle) -- the projector statistic with singular values kept; no
 truncation choice).
 
@@ -16,7 +16,7 @@ Computed via the Gram trick (never form the [d,d] product per pair):
 
 so all pairs in a class are one flat matmul: [n_readers, d^2] @ [d^2, n_writers].
 
-Edge classes in v0 (writer -> reader; sublayer-causal masks, D6):
+Edge classes (writer -> reader; sublayer-causal masks):
 
     head_head_K    OV of (l_w, h_w) -> key slot of (l_r, h_r):    R = F,   need l_w < l_r
     head_head_Q    OV -> query slot:                              R = F^T, need l_w < l_r
@@ -49,7 +49,7 @@ def _sandwich(outer: np.ndarray, inner: np.ndarray) -> np.ndarray:
 def head_grams(w: Weights) -> dict[str, np.ndarray]:
     """All per-head Gram matrices, stacked [L*H, d, d] float32 (memory: D1
     statistics are O(1) ratios of ~6e5-term sums; float32 is ample -- the
-    float64 requirement (D6) applies to the *decompositions* in nodes.py)."""
+    float64 requirement applies to the *decompositions* in nodes.py)."""
     L, H = N_LAYERS, N_HEADS
     G_K, G_Q, G_V, H_ov = [], [], [], []
     for l in range(L):
@@ -104,7 +104,7 @@ def _head_labels() -> tuple[list[str], np.ndarray]:
 
 
 def compute_edges(w: Weights) -> pd.DataFrame:
-    """All v0 edge statistics. Returns one row per candidate edge:
+    """All edge statistics of the head and interface classes. Returns one row per candidate edge:
     columns [cls, writer, l_w, reader, l_r, stat]."""
     hg = head_grams(w)
     bg = interface_grams(w)

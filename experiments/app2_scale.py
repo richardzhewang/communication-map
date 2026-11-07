@@ -1,7 +1,7 @@
 """CS2 dose curve for big rotary models, HF-native forwards.
 
 Why not TransformerLens: the fp32 processing copy of a 6.9B model does not
-fit this box's RAM next to the HF copy. The TL-processed model is
+fit in host RAM next to the HF copy. The TL-processed model is
 forward-equivalent to the raw HF model (LN folding is a reparameterization,
 write-centering is absorbed by LN's mean-subtraction, unembed centering
 cancels in log-softmax), so the readouts run on the HF model loaded

@@ -1,15 +1,15 @@
-"""Neuron (MLP) nodes for v1: loading + the mixed dense edge classes.
+"""Neuron (MLP) nodes: loading + the mixed dense edge classes.
 
-Each neuron m in layer l is a rank-1 reader-writer pair (design doc S3.2):
+Each neuron m in layer l is a rank-1 reader-writer pair:
 pre-activation a_m = w_in . x (reader), contribution Delta x = GELU(a_m) w_out
 (writer). TransformerLens (row conv): W_in [L, d, d_mlp] (pre = x @ W_in),
 W_out [L, d_mlp, d] (out = act @ W_out). Column-conv vectors are therefore
 W_in[l][:, m] (reader) and W_out[l][m, :] (writer); both stacks are [L, d_mlp, d]
 with ROWS as vectors. fold_ln folds ln2's gain into W_in and
-center_writing_weights centers the W_out writers -- the same D6 processing as
+center_writing_weights centers the W_out writers -- the same processing as
 the head factors. Biases are ignored (potential-connectivity geometry only).
 
-v1 edge classes involving neurons (writer -> reader; sublayer-causal masks,
+Edge classes involving neurons (writer -> reader; sublayer-causal masks,
 D6ii: within layer l attention writes BEFORE the MLP reads, and the MLP writes
 after everything in its layer):
 
@@ -19,7 +19,7 @@ after everything in its layer):
     neuron_unembed       w_out -> W_U                         always
     neuron_neuron        w_out -> w_in  (stream.py, tiled)    l_w <  l_r
 
-All statistics are the D1 sigma-weighted norm C = ||R W||_F/(||R||_F ||W||_F),
+All statistics are the sigma-weighted norm C = ||R W||_F/(||R||_F ||W||_F),
 which collapses when one side is rank-1: head->neuron C = ||M^T w^||_2/||M||_F,
 neuron->head_K C = ||F w^||_2/||F||_F, neuron->neuron C = |cos(w_out, w_in)|.
 (sigma_1 == Frobenius for every rank-1-sided class, so the A2 companion
@@ -27,11 +27,10 @@ statistic is meaningful only for the head-head families and is not computed
 here.) All quadratic forms are evaluated through the [64, 64] factor Grams --
 never a [d, d] product per pair.
 
-Nulls (v0.1 lessons applied):
+Nulls:
   head_neuron / neuron_head_*  bulk empirical null per span stratum (sparse
-                               signal assumed; CHECK density on first run --
-                               the R4 artifact showed what dense signal does
-                               to a bulk null).
+                               signal assumed; dense signal would
+                               distort a bulk null).
   emb/pos_neuron, neuron_unembed  rotation null (A1). Rank-1 readers/writers
       make this EXACT and cheap: for unit w and Haar Q, the null statistic
       C^2 = w^T Q Hb Q^T w = sum_i lambda_i u_i^2 with u uniform on S^{d-1}
@@ -78,7 +77,7 @@ def load_neurons(model) -> NeuronWeights:
 
 
 def partial_neurons(nw: NeuronWeights, Vk: np.ndarray) -> NeuronWeights:
-    """D3 partialling for neuron vectors: project the top-k global directions
+    """Partialling for neuron vectors: project the top-k global directions
     (partial.global_directions) out of every reader and writer row.
     Normalization happens inside the statistics, so no renorm here."""
     proj = lambda X: X - (X @ Vk) @ Vk.T
@@ -102,7 +101,7 @@ def neuron_labels(l: np.ndarray, m: np.ndarray) -> np.ndarray:
 #
 # Each class is computed as a [144, N_tot] (or [N_tot]) stat array, masked by
 # the sublayer-causal rule, nulled, BH'd within the family, and REDUCED TO
-# SURVIVORS immediately (design S8: keep only survivors; full tables of 1e7
+# SURVIVORS immediately (keep only survivors; full tables of 1e7
 # rows are written only on request).
 
 

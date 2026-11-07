@@ -1,11 +1,11 @@
-"""Pre-registered recovery acceptance test (decision D5).
+"""Recovery acceptance test against known GPT-2 small circuits.
 
-FIXED BEFORE looking at the map exploratorily. The map passes v0 acceptance
+Fixed before looking at the map exploratorily. The map passes acceptance
 iff each criterion below holds on the RAW map at family FDR q <= 0.05.
 
 Known GPT-2-small circuitry (sources: Wang et al. 2022 IOI, arXiv:2211.00593;
 standard induction-head analyses of gpt2-small; head lists are literature
-values and should be re-verified causally in the validation loop):
+values):
 
     previous-token heads   L2H2, L4H11
     duplicate-token heads  L0H1, L0H10, L3H0

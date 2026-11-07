@@ -1,11 +1,10 @@
-"""The partialled map (decision D3): project global/mechanical directions out
+"""The partialled map: project global/mechanical directions out
 of every reader and writer, recompute all edges.
 
-Finance framing: the raw map is a correlation network; this is the
-partial-correlation network after removing the common factors. Topology
-claims (hubs, heavy tails, small-world) must survive partialling.
+The raw map is a correlation network; this is the partial-correlation
+network after removing the common factors.
 
-v0 estimator of the global directions (simple, documented, replaceable):
+Estimator of the global directions:
 eigenvectors of the trace-normalized pooled second-moment of ALL reader and
 writer Grams. Each Gram is normalized to unit trace so no single component
 dominates; the top-k eigendirections of the pool are the directions

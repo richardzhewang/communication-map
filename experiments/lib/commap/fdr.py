@@ -1,4 +1,4 @@
-"""Per-family FDR control (decision D4).
+"""Per-family FDR control.
 
 Benjamini-Hochberg is run WITHIN each edge family (= cls; strata are already
 standardized by the empirical null, so pooling z-based p-values across strata
@@ -40,7 +40,7 @@ def add_fdr(
 
 # --------------------------------------------------- streaming (binned) BH
 #
-# v1 (design S8): BH over the 1e9-edge neuron_neuron family never materializes
+# BH over the 1e9-edge neuron_neuron family never materializes
 # or sorts the p-value vector. BH needs only, per candidate threshold, the
 # COUNT of p-values below it -- so the stream accumulates a histogram of the
 # statistic per stratum, each bin maps to one p-value (via the stratum's null
@@ -78,7 +78,7 @@ def q_lookup(p_edge: np.ndarray, p_sorted: np.ndarray, q_sorted: np.ndarray) -> 
 
 
 def family_summary(df: pd.DataFrame) -> pd.DataFrame:
-    """Survivor counts per family (reported per D4)."""
+    """Survivor counts per family."""
     return (
         df.groupby("cls")
         .agg(n_edges=("stat", "size"), n_sig=("sig", "sum"),
