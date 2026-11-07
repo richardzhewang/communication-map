@@ -74,7 +74,7 @@ experiments/
                        exact chance law (appendix figure)
   map_fig_overview.py  the full map at layer resolution: every class
                        scored against the rotation null, pooled into
-                       writer-group x reader-group blocks (Figure 3)
+                       writer-group x reader-group blocks (Figure 2)
 
   app1_select.py       the edge-selection standard: empirical
                        null distributions (median/MADN per stratum) +
@@ -101,7 +101,7 @@ experiments/
                        and the rank-one law (Appendix A)
   verify_both_sides.py both-sides bound spot check (Appendix A)
   verify_null_estimators.py    robust-vs-moment null-fit comparison
-                       (Appendix A.4)
+                       (Appendix C.1)
   verify_census_mc.py  500-rotation Monte Carlo census, asserted
                        against map_build's closed-form census
   verify_null_shape.py sampled rotation null of one head pair: shape
@@ -136,8 +136,8 @@ results/
 | Head-head census against the theoretical null (Section 3) | map_build (all models) | `results/map/{model}/theory_census.json` |
 | Neuron wires, exceedance counts, neuron-cosine figure | map_build + map_fig_wires | `results/map/{model}/wires.csv.gz`, `theory_census.json` (`nn_exceedance`), `results/figures/` |
 | Candidate-edge counts per connection class | map_build | `results/map/{model}/families.csv` |
-| The map at layer resolution (all 18 classes, Figure 3) | map_fig_overview | `results/figures/fig_map_layer_overview.png`, `results/figures/map_layer_overview.json` |
-| Selected edges and thresholds (Section 4) | app1_select | `results/app1/{model}/edges_heads.csv.gz` |
+| The map at layer resolution (all 18 classes, Figure 2) | map_fig_overview | `results/figures/fig_map_layer_overview.png`, `results/figures/map_layer_overview.json` |
+| Selected edges and thresholds (Section 3.3) | app1_select | `results/app1/{model}/edges_heads.csv.gz` |
 | Head-graph figure, communities, layer-separation table | app1_communities + app1_fig_map | `results/figures/`, `results/app1/head_communities_seed0.json` |
 | GPT-2 community decomposition and corpus-seed check | app1_ablation + app1_seed_check | `results/app1/decomposition_gpt2*.json` |
 | Community ablation across six models (both control types, in-community induction heads, block losses) | app1_multimodel | `results/app1/community_replication.json` |
